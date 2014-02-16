@@ -5,7 +5,7 @@ from subprocess import call
 
 def fix():
   base_path = os.getcwd()
-  path = base_path# + "/eminem - marshall mathers LP"
+  path = base_path
   for (dirpath, dirnames, filenames) in walk(path):
     path_printed = False
     best_match = match_start(filenames)
