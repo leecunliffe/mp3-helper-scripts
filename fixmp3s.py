@@ -2,6 +2,10 @@ import sys, os, inspect, time, re
 
 from os import walk
 from subprocess import call
+import getopt
+
+dryrun = False
+
 
 def fix():
   base_path = os.getcwd()
@@ -24,7 +28,8 @@ def fix():
       for fname in mp3s:
         new_name = fname[triml:]
         print "%s -> %s" % (fname, new_name)
-        call(["mv", dirpath + "/" + fname, dirpath + "/" + new_name])
+        if not dryrun:
+            call(["mv", dirpath + "/" + fname, dirpath + "/" + new_name])
 
     second_best = get_second_match(filenames)
     if second_best:
@@ -41,7 +46,8 @@ def fix():
         new_name = re.sub(r'([0-9]{2})'+best_match+r'(.*)', r'\1 \2', fname)
         new_name = re.sub(r'\s+', r' ', new_name)
         print "%s -> %s" % (fname, new_name)
-        call(["mv", dirpath + "/" + fname, dirpath + "/" + new_name])
+        if not dryrun:
+            call(["mv", dirpath + "/" + fname, dirpath + "/" + new_name])
 
 
 #eg "01 - Artist Name - Track.mp3
@@ -97,4 +103,13 @@ def get_best_match(first, best_match, fname):
   return best_match
 
 
-fix()
+if __name__ == '__main__':
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "d", ["dryrun"])
+    except getopt.GetoptError:
+        print "fixmp3s.py -d <dryrun>"
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt in ["-d", "--dryrun"]:
+            dryrun = True
+    fix()
