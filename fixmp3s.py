@@ -112,4 +112,8 @@ if __name__ == '__main__':
     for opt, arg in opts:
         if opt in ["-d", "--dryrun"]:
             dryrun = True
+    s1 = time.time()
+    print "starting..."
     fix()
+    s2 = time.time()-s1
+    print "finished in %s" % s2
