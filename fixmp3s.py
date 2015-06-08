@@ -8,6 +8,7 @@ from subprocess import call
 import getopt
 
 dryrun = False
+EXTENSIONS = set(('mp3', 'wma', 'mp4', 'flac',))
 
 
 def fix():
@@ -58,7 +59,8 @@ def get_second_match(filenames):
     best_match = ""
     mp3s = []
     for fname in filenames:
-        if fname[-3:] != "mp3":
+        name_part, extension_part = os.path.splitext(fname)
+        if extension_part.lower() not in EXTENSIONS:
             continue
         if not re.match(r'^[0-9]{2}.*', fname):
             return False
@@ -80,7 +82,8 @@ def match_start(filenames):
         best_match = ""
         mp3s = []
         for fname in filenames:
-            if fname[-3:] != "mp3":
+            name_part, extension_part = os.path.splitext(fname)
+            if extension_part.lower() not in EXTENSIONS:
                 continue
             mp3s.append(fname)
             if not first:
