@@ -8,7 +8,7 @@ from subprocess import call
 import getopt
 
 dryrun = False
-EXTENSIONS = set(('mp3', 'wma', 'mp4', 'flac',))
+EXTENSIONS = set(('.mp3', '.wma', '.mp4', '.flac',))
 
 
 def fix():
